@@ -15,18 +15,32 @@ public class ToDoDao {
 	@Autowired
 	HibernateTemplate hibernateTemplate;
 	
+	//Add/ Save ToDo
 	@Transactional
-	public int save(ToDo t)
+	public void save(ToDo t)
 	{
-		Integer i = (Integer) this.hibernateTemplate.save(t);
-		return i;
+		this.hibernateTemplate.saveOrUpdate(t);
 	}
 	
+	// Fetch All ToDo
 	public List<ToDo> getAll()
 	{
 		List<ToDo> todos = this.hibernateTemplate.loadAll(ToDo.class);
 		return todos;
 	}
 	
+	//Delete ToDo
+	@Transactional
+	public void deleteToDo(int toDoId) 
+	{
+		ToDo todo = this.hibernateTemplate.load(ToDo.class, toDoId);
+		this.hibernateTemplate.delete(todo);
+	}
 	
+	//fetch single ToDo
+	public ToDo getToDo(int todoId)
+	{
+		ToDo toDo = this.hibernateTemplate.get(ToDo.class, todoId);
+		return toDo;
+	}
 }

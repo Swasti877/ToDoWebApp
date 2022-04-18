@@ -15,13 +15,22 @@ public class ToDo {
 	private String toDoTitle;
 	private String toDoDesc;
 	private Date todoDate;
-	public ToDo(String toDoTitle, String toDoDesc, Date todoDate) {
+	public ToDo(int todoId, String toDoTitle, String toDoDesc, Date todoDate) {
 		super();
+		this.todoId = todoId;
 		this.toDoTitle = toDoTitle;
 		this.toDoDesc = toDoDesc;
 		this.todoDate = todoDate;
 	}
 	
+	public int getTodoId() {
+		return todoId;
+	}
+
+	public void setTodoId(int todoId) {
+		this.todoId = todoId;
+	}
+
 	public ToDo() {
 		super();
 	}

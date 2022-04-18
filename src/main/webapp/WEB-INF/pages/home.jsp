@@ -19,13 +19,15 @@
 	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
 	crossorigin="anonymous">
 
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
 <title>ToDo WebApp</title>
 </head>
 <body>
 
 	<div class="container mt-3">
 
-		<h1 class="text-center">Title goes here....</h1>
+		<h1 class="text-center">ToDo Application</h1>
 
 		<c:if test="${not empty msg }">
 			<div class="alert alert-success">
@@ -33,6 +35,7 @@
 			</div>
 		</c:if>
 
+		<%--Side Navigation --%>
 		<div class="row mt-5">
 			<div class="col-md-2">
 				<div class="list-group">
@@ -45,23 +48,37 @@
 						class="list-group-item list-group-item-action">View TODO</a>
 				</div>
 			</div>
+
+			<%--Content --%>
 			<div class="col-md-10">
 
-				<h3 class="text-center">Content</h3>
+				<%--page == home --%>
 				<c:if test="${page== 'home' }">
 					<h1>Home page...</h1>
-					
+
 					<c:forEach items="${todos }" var="t">
-						<div class="card">
-							<div class="card-body">
-								<h3><c:out value="${t.toDoTitle }"></c:out></h3>
-								<p><c:out value="${t.toDoDesc }"></c:out></p>
+						<div class="card mt-2">
+							<div class="card-body" style="position: relative;">
+								<h3>
+									<c:out value="${t.toDoTitle }"></c:out>
+								</h3>
+								<p>
+									<c:out value="${t.toDoDesc }"></c:out>
+								</p>
+								<a href="<c:url value="/editToDo/${t.todoId }"/>"
+									class="material-icons"
+									style="color: black; position: absolute; right: 50px; bottom: 10px; text-decoration: none">
+									edit </a> <a href="<c:url value="/deleteToDo/${t.todoId}" />"
+									class="material-icons"
+									style="color: red; position: absolute; right: 10px; bottom: 10px; text-decoration: none">
+									delete </a>
 							</div>
 						</div>
 					</c:forEach>
-					
+
 				</c:if>
 
+				<%--page == add --%>
 				<c:if test="${page== 'add' }">
 					<h1>Add to do....</h1>
 					<form:form action="saveToDo" method="post" modelAttribute="todo">
@@ -79,6 +96,29 @@
 					</form:form>
 				</c:if>
 
+				<%--page == update --%>
+				<c:if test="${page== 'update' }">
+					<h1>Edit ToDo......</h1>
+					<form action="${pageContext.request.contextPath }/saveToDo" method="post">
+						<input type="text" name="todoId" value="${toDo.todoId }" hidden/> 
+						<div class="form-group row">
+							<label for="toDoTitle" class="col-sm-2 col-form-label">Title</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="toDoTitle" name="toDoTitle"
+									value="${toDo.toDoTitle }" />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="toDoDesc" class="col-sm-2 col-form-label">Description</label>
+							<div class="col-sm-10">
+								<input type="textarea" class="form-control" id="toDoDesc" name="toDoDesc" value="${toDo.toDoDesc }"/>
+							</div>
+						</div>
+						<div class="container text-center">
+							<button type="submit" class="btn btn-outline-primary">Update</button>
+						</div>
+					</form>
+				</c:if>
 			</div>
 		</div>
 	</div>
